@@ -1,9 +1,33 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { testSnapshot as applicationSnapshot } from '../../test/fixtures/application';
 import { ExperienceDetailPage } from './ExperienceDetailPage';
 
 describe('ExperienceDetailPage', () => {
+  it('shows named technologies beside the title without adding links or repeated image labels', () => {
+    const item = {
+      ...applicationSnapshot.items[0]!,
+      technologies: ['react', 'typescript', 'vitejs'] as const,
+    };
+    const { rerender } = render(
+      <ExperienceDetailPage item={{ ...item, technologies: [...item.technologies] }} />,
+    );
+    const list = screen.getByRole('list', { name: '기술 스택' });
+    expect(
+      within(list)
+        .getAllByRole('listitem')
+        .map((entry) => entry.textContent),
+    ).toEqual(['React', 'TypeScript', 'Vite']);
+    expect(within(list).queryByRole('link')).not.toBeInTheDocument();
+    expect(within(list).queryByRole('img')).not.toBeInTheDocument();
+    expect(list.querySelector('img')).toHaveAttribute('src', '/media/technologies/react.svg');
+    expect(screen.getByRole('heading', { level: 1, name: item.title })).toBeVisible();
+    rerender(<ExperienceDetailPage item={applicationSnapshot.items[0]!} />);
+    expect(screen.queryByRole('list', { name: '기술 스택' })).not.toBeInTheDocument();
+    rerender(<ExperienceDetailPage item={{ ...item, technologies: [] }} />);
+    expect(screen.queryByRole('list', { name: '기술 스택' })).not.toBeInTheDocument();
+  });
+
   it('keeps gallery captions and keyboard-accessible original links in source order', async () => {
     const user = userEvent.setup();
     render(

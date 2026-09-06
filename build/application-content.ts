@@ -6,6 +6,7 @@ import { parseDocument } from 'yaml';
 import { z } from 'zod';
 import { APPLICATION_CONFIG } from '../src/content/application.config.ts';
 import { isExperienceMediaPath } from '../src/domain/experience-media.ts';
+import { TECHNOLOGY_IDS } from '../src/domain/technology.ts';
 import type { ApplicationConfig } from '../src/domain/application-config.ts';
 import { formatDiagnostic, type ContentDiagnostic } from '../src/domain/content-diagnostic.ts';
 import {
@@ -24,6 +25,11 @@ const SAFE_ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const FRONTMATTER_SCHEMA = z
   .object({
     title: z.string().trim().min(1),
+    technologies: z
+      .array(z.enum(TECHNOLOGY_IDS))
+      .max(4, '핵심 기술은 최대 4개만 표시합니다.')
+      .refine((values) => new Set(values).size === values.length, '중복 기술은 제거합니다.')
+      .optional(),
     category: z.enum(TIMELINE_CATEGORIES),
     startDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
     endDate: z
@@ -227,6 +233,7 @@ export function serializeExperienceMarkdown(item: TimelineItem): string {
   const frontmatter = [
     '---',
     `title: ${quoteYaml(item.title)}`,
+    ...(item.technologies ? [`technologies: [${item.technologies.join(', ')}]`] : []),
     `category: ${item.category}`,
     `startDate: ${quoteYaml(item.startDate)}`,
     ...(item.endDate ? [`endDate: ${quoteYaml(item.endDate)}`] : []),

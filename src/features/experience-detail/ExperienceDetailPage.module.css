@@ -86,6 +86,43 @@
   border-bottom: 1px solid var(--line-strong);
 }
 
+.titleRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+}
+
+.titleRow h1 {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.technologies {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.875rem;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.technologies li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.technologies img {
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
 .meta {
   display: flex;
   align-items: center;

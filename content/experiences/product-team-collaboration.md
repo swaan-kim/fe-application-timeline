@@ -1,6 +1,7 @@
 ---
 title: 미래에셋 챗봇
 category: work
+technologies: [javascript, python, fastapi]
 # 2026년 8월부터 진행 중. endDate는 종료일이 아닌 현재 타임라인 표시 기준일입니다.
 startDate: '2026-08-01'
 endDate: '2026-09-03'

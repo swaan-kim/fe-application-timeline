@@ -120,6 +120,31 @@ describe('Notion sync planning', () => {
 });
 
 describe('Notion preview and apply', () => {
+  it('preserves local technologies when applying a Notion body update', async () => {
+    const rootDir = await mkdtemp(path.join(tmpdir(), 'fe-notion-technologies-'));
+    temporaryDirectories.push(rootDir);
+    const contentDir = path.join(rootDir, 'content', 'experiences');
+    await mkdir(contentDir, { recursive: true });
+    const local = createLocal(createItem({ technologies: ['react', 'typescript'] }));
+    await writeFile(path.join(contentDir, 'project-a.md'), local.content, 'utf8');
+    await writeFile(
+      path.join(rootDir, 'content', 'notion-sync-state.json'),
+      JSON.stringify(createState(local)),
+      'utf8',
+    );
+    const run = await stageNotionPreview(rootDir, [
+      createRemote(createItem({ outcome: '수정한 성과' })),
+    ]);
+    expect(run.entries[0]?.operation).toBe('update');
+    await applyNotionPreview(rootDir, run.runId);
+    const result = parseExperienceMarkdown(
+      await readFile(path.join(contentDir, 'project-a.md'), 'utf8'),
+      'project-a.md',
+    );
+    expect(result.technologies).toEqual(['react', 'typescript']);
+    expect(result.outcome).toBe('수정한 성과');
+  });
+
   it('keeps canonical files untouched during preview, then applies the reviewed candidate', async () => {
     const rootDir = await mkdtemp(path.join(tmpdir(), 'fe-notion-sync-'));
     temporaryDirectories.push(rootDir);

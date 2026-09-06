@@ -13,6 +13,7 @@ import styles from './ExperienceDetailPage.module.css';
 import { isExperienceMediaPath } from '../../domain/experience-media';
 import { ExperienceImage } from './ExperienceImage';
 import { remarkMediaGallery } from './remarkMediaGallery';
+import { TECHNOLOGY_LABELS } from '../../domain/technology';
 
 interface ExperienceDetailPageProps {
   item: TimelineItem;
@@ -150,7 +151,24 @@ export function ExperienceDetailPage({
               <ItemPeriod item={item} />
             </span>
           </p>
-          <h1 id="experience-title">{item.title}</h1>
+          <div className={styles.titleRow}>
+            <h1 id="experience-title">{item.title}</h1>
+            {item.technologies?.length ? (
+              <ul className={styles.technologies} aria-label="기술 스택" role="list">
+                {item.technologies.map((technology) => (
+                  <li key={technology}>
+                    <img
+                      src={`${import.meta.env.BASE_URL}media/technologies/${technology}.svg`}
+                      alt=""
+                      width="16"
+                      height="16"
+                    />
+                    <span>{TECHNOLOGY_LABELS[technology]}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
         </header>
 
         {isEmptyDraft ? (

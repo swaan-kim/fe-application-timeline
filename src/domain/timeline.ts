@@ -1,4 +1,5 @@
 import { formatDiagnostic, type ContentDiagnostic } from './content-diagnostic.ts';
+import type { TechnologyId } from './technology.ts';
 
 export const TIMELINE_CATEGORIES = ['build', 'work', 'grow'] as const;
 export const EXPERIENCE_STATUSES = ['draft', 'published', 'archived'] as const;
@@ -14,6 +15,7 @@ export interface TimelineItem {
   endDate?: string;
   ongoing?: boolean;
   title: string;
+  technologies?: TechnologyId[];
   purpose: string;
   intent: string;
   outcome: string;

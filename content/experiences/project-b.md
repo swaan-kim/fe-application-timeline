@@ -1,6 +1,7 @@
 ---
 title: 앱인토스 ‘옆집 강아지’
 category: build
+technologies: [react, typescript, vitejs]
 # 2026년 8월부터 진행 중. endDate는 종료일이 아닌 현재 타임라인 표시 기준일입니다.
 startDate: '2026-08-01'
 endDate: '2026-09-03'

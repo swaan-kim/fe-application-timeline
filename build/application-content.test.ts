@@ -36,6 +36,32 @@ afterEach(async () => {
 });
 
 describe('experience Markdown contract', () => {
+  it('round-trips optional technology metadata and rejects unknown or duplicate IDs', () => {
+    const item = parseExperienceMarkdown(
+      createMarkdown({ frontmatter: 'technologies: [react, typescript, vitejs]\n' }),
+      'sample-item.md',
+    );
+    expect(item.technologies).toEqual(['react', 'typescript', 'vitejs']);
+    expect(parseExperienceMarkdown(serializeExperienceMarkdown(item), 'sample-item.md')).toEqual(
+      item,
+    );
+    expect(
+      parseExperienceMarkdown(createMarkdown(), 'sample-item.md').technologies,
+    ).toBeUndefined();
+    for (const values of [
+      '[unknown]',
+      '[react, react]',
+      '[react, typescript, vitejs, html5, css3]',
+    ]) {
+      expect(() =>
+        parseExperienceMarkdown(
+          createMarkdown({ frontmatter: `technologies: ${values}\n` }),
+          'sample-item.md',
+        ),
+      ).toThrow('technologies');
+    }
+  });
+
   it('preserves local media and rejects unsafe, remote, or undescribed images', () => {
     const image = '![슬라이드 예시](/media/experiences/sample-item/slide.png)';
     const source = createMarkdown({

@@ -36,6 +36,7 @@ status: draft
 
 - `category`: `build`, `work`, `grow`
 - `status`: `draft`, `published`, `archived`
+- `technologies`: 선택 항목. 예: `technologies: [react, typescript, vitejs]`. 실제 사용한 핵심 기술을 최대 4개까지 지정하면 상세 제목 옆에 로고와 이름이 표시됩니다. 생략하거나 `[]`로 두면 표시하지 않습니다. 지원 ID는 `src/domain/technology.ts`에서 관리하며, Notion에서 본문을 가져와도 로컬 기술 목록은 보존합니다.
 - `endDate`가 없으면 단일 사건으로 표시
 - 화면의 날짜는 월 단위(`2026.06 — 2026.08`)로 표시합니다. 같은 달에 끝난 경험은 월을 한 번만 표시합니다. 일자는 타임라인 배치용으로만 사용하며 초·후반 정도의 근사치를 넣을 수 있습니다.
 - 진행 중인 경험에는 `ongoing: true`와 타임라인 표시 기준일까지의 `endDate`를 함께 넣습니다. 화면에는 종료 월 대신 `현재`가 표시됩니다. 기준일 변경 시 이 `endDate`도 갱신하고, 활동이 끝나면 `ongoing`을 제거하거나 `false`로 바꾸고 종료 월에 맞는 날짜를 넣습니다.
@@ -69,6 +70,8 @@ npm run content:notion:pull -- --apply --run <미리보기 ID>
 첫 명령은 `.content-sync/`에 검토 후보와 변경 요약만 만들며 실제 Markdown은 건드리지 않습니다. Markdown과 Notion이 모두 바뀐 항목은 충돌로 중단합니다. 설정할 속성, 페이지 템플릿과 비밀키 연결 방법은 [Notion 설정 문서](docs/notion-template.md)를 참고합니다.
 
 ## 구조
+
+기술 로고는 [Devicon](https://github.com/devicons/devicon)의 SVG를 로컬에서 제공합니다. 외부 CDN 요청 없이 표시하며, 출처·고정 리비전·MIT 라이선스는 `public/media/technologies/`에 함께 보관합니다.
 
 ```text
 content/experiences/          사람이 편집하는 경험별 Markdown

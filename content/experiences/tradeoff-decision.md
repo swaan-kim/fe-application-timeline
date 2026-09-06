@@ -1,6 +1,7 @@
 ---
 title: 테오 스프린트 '맛지도'
 category: work
+technologies: [nextjs, typescript, react]
 # 타임라인 배치용 근사 날짜: 2026년 7월부터 8월 후반. 화면에는 월만 표시합니다.
 startDate: '2026-07-01'
 endDate: '2026-08-25'

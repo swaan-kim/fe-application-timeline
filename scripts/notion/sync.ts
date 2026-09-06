@@ -174,6 +174,17 @@ function getOperation(
   };
 }
 
+/** Technologies are local presentation metadata, not a Notion database property. */
+function withLocalTechnologies(
+  remote: RemoteExperience,
+  localDocuments: Map<string, LocalDocument>,
+): RemoteExperience {
+  const technologies = localDocuments.get(remote.item.id)?.item.technologies;
+  return technologies === undefined
+    ? remote
+    : { ...remote, item: { ...remote.item, technologies } };
+}
+
 export function createSyncPlan(
   localDocuments: Map<string, LocalDocument>,
   remoteExperiences: readonly RemoteExperience[],
@@ -181,7 +192,8 @@ export function createSyncPlan(
   runId: string,
 ): SyncRun {
   const seenIds = new Set<string>();
-  const entries = remoteExperiences.map((remote): SyncEntry => {
+  const entries = remoteExperiences.map((source): SyncEntry => {
+    const remote = withLocalTechnologies(source, localDocuments);
     if (seenIds.has(remote.item.id)) {
       throw new Error(`Notion에 중복된 Slug가 있습니다: ${remote.item.id}`);
     }
@@ -264,6 +276,9 @@ export async function stageNotionPreview(
   config: ApplicationConfig = APPLICATION_CONFIG,
 ): Promise<SyncRun> {
   const localDocuments = await readLocalDocuments(rootDir);
+  remoteExperiences = remoteExperiences.map((remote) =>
+    withLocalTechnologies(remote, localDocuments),
+  );
   const state = await readSyncState(rootDir);
   const runId = createRunId();
   const run = createSyncPlan(localDocuments, remoteExperiences, state, runId);
