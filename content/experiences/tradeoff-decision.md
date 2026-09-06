@@ -39,5 +39,3 @@ status: draft
 사용자 테스트에서 ‘어떤 기준으로 추천한 건가요?’라는 질문을 받았습니다. 추천 로직을 만드는 것만큼, 사용자가 선택의 이유를 이해하고 납득할 수 있도록 기준을 전달하는 일이 중요하다는 것을 배웠습니다.
 
 [GitHub에서 추천 로직 보기](https://github.com/swaan-kim/matzip/tree/main/src/features/region-recommend)
-
-[서버의 후보 압축·계산 흐름](https://github.com/swaan-kim/matzip/blob/main/src/app/api/region/recommend/route.ts) · [음식점 밀도 가중치를 제외한 변경 이력](https://github.com/swaan-kim/matzip/commit/c2f602d55b12d6927b1e035161b89e24822d6b24)
