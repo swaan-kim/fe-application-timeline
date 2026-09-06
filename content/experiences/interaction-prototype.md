@@ -1,5 +1,5 @@
 ---
-title: AI로 PPT 만들기
+title: AI로 PPT '잘' 만들기
 category: build
 # 타임라인 배치용 근사 날짜: 2026년 6월 후반부터 8월 초. 화면에는 월만 표시합니다.
 startDate: '2026-06-21'
