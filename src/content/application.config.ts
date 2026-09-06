@@ -20,7 +20,7 @@ export const APPLICATION_CONFIG = {
       category: 'build',
       title: 'NCP 가이드 챗봇 구현',
       startDate: '2026-04-01',
-      endDate: '2026-06-30',
+      endDate: '2026-05-31',
       chartOnly: true,
     },
   ],
