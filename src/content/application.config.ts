@@ -11,6 +11,15 @@ export const APPLICATION_CONFIG = {
       category: 'work',
       title: 'NCP AI Enablement 팀 PT',
       startDate: '2026-03-01',
+      // ‘6월 초’를 타임라인에 근사해서 표시하는 기준일.
+      endDate: '2026-06-05',
+      chartOnly: true,
+    },
+    {
+      id: 'ncp-guide-chatbot',
+      category: 'build',
+      title: 'NCP 가이드 챗봇 구현',
+      startDate: '2026-04-01',
       endDate: '2026-06-30',
       chartOnly: true,
     },

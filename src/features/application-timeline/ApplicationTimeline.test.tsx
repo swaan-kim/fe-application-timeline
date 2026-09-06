@@ -18,6 +18,14 @@ describe('ApplicationTimeline', () => {
             endDate: '2026-06-30',
             chartOnly: true,
           },
+          {
+            id: 'test-build-context',
+            category: 'build',
+            title: '표 전용 구현 활동',
+            startDate: '2026-04-01',
+            endDate: '2026-06-30',
+            chartOnly: true,
+          },
         ]}
       />,
     );
@@ -30,6 +38,9 @@ describe('ApplicationTimeline', () => {
     expect(within(workLane).getByText('Work, 2026년 3월부터 2026년 6월까지,')).toBeInTheDocument();
     const list = screen.getByRole('navigation', { name: '경험 목록' });
     expect(within(list).queryByText('표 전용 활동')).not.toBeInTheDocument();
+    const buildLane = within(chart).getByRole('list', { name: 'Build 경험' });
+    expect(within(buildLane).getByText('표 전용 구현 활동').closest('a')).toBeNull();
+    expect(within(list).queryByText('표 전용 구현 활동')).not.toBeInTheDocument();
     expect(within(list).getAllByRole('link')).toHaveLength(applicationSnapshot.items.length);
   });
   it('narrows the chart without changing actual dates or hiding records from the list', () => {
