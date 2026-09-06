@@ -7,6 +7,13 @@ describe('App route rendering', () => {
     window.history.replaceState(null, '', '/');
   });
 
+  it('keeps the home focused on experiences without a GitHub promotion link', () => {
+    render(<App />);
+    expect(screen.getByRole('heading', { level: 2, name: '경험 기록' })).toBeVisible();
+    expect(screen.queryByRole('link', { name: /GitHub|지원서 코드/i })).not.toBeInTheDocument();
+    expect(document.querySelector('a[href*="github.com"]')).toBeNull();
+  });
+
   it('renders a detail document from a direct path', async () => {
     window.history.replaceState(null, '', '/experiences/accessibility-study');
     render(<App />);

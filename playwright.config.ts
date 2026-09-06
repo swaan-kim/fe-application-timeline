@@ -5,7 +5,7 @@ const baseURL = `http://127.0.0.1:${port}`;
 
 export default defineConfig({
   testDir: './e2e',
-  outputDir: '../../work/qa/playwright-results',
+  outputDir: process.env.CI ? 'test-results' : '../../work/qa/playwright-results',
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,

@@ -25,18 +25,6 @@ function HomePage() {
             {formatCompactDate(APPLICATION_CONFIG.chartStartDate ?? applicationSnapshot.startDate)}{' '}
             — {formatCompactDate(applicationSnapshot.endDate)}
           </p>
-          {APPLICATION_CONFIG.githubUrl ? (
-            <a
-              tabIndex={0}
-              className={styles.githubLink}
-              href={APPLICATION_CONFIG.githubUrl}
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              GitHub <span aria-hidden="true">↗</span>
-              <span className="sr-only"> 새 창에서 열림</span>
-            </a>
-          ) : null}
         </div>
       </header>
 

@@ -65,11 +65,11 @@ describe('application config validation', () => {
     ).toThrow('GitHub 주소');
   });
 
-  it('allows an omitted GitHub URL in development and requires it for publishing', () => {
+  it('allows an empty GitHub URL in development and production', () => {
     const config = createConfig({ githubUrl: '' });
     expect(() => validateApplicationConfig(config)).not.toThrow();
-    expect(() => validateApplicationConfig(config, { requirePublicationReady: true })).toThrow(
-      'GitHub 프로필 주소',
-    );
+    expect(() =>
+      validateApplicationConfig(config, { requirePublicationReady: true }),
+    ).not.toThrow();
   });
 });

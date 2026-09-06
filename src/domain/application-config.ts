@@ -48,8 +48,11 @@ export function validateApplicationConfig(
 
 export function collectApplicationConfigDiagnostics(
   config: ApplicationConfig,
-  policy: ApplicationConfigValidationPolicy = {},
+  _policy: ApplicationConfigValidationPolicy = {},
 ): ContentDiagnostic[] {
+  // Preserve the caller contract; publication visibility is checked with content,
+  // and a profile link is no longer a prerequisite for publishing the site.
+  void _policy;
   const issues: ContentDiagnostic[] = [];
   const add = (field: string, message: string) =>
     issues.push({ severity: 'error', file: 'application.config.ts', field, message });
@@ -104,9 +107,6 @@ export function collectApplicationConfigDiagnostics(
   }
   if (githubUrl && !isGitHubProfileUrl(githubUrl)) {
     add('githubUrl', 'GitHub 주소는 https://github.com/<username> 형식이어야 합니다.');
-  }
-  if (policy.requirePublicationReady && !githubUrl) {
-    add('githubUrl', '게시하려면 GitHub 프로필 주소가 필요합니다.');
   }
 
   return issues;

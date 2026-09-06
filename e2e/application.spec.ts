@@ -8,6 +8,7 @@ test.describe('Build / Work / Grow 지원서', () => {
 
     await expect(page.getByRole('heading', { level: 1, name: /.+/ })).toBeVisible();
     await expect(page.getByRole('heading', { level: 2, name: '경험 기록' })).toBeVisible();
+    await expect(page.locator('a[href*="github.com"]')).toHaveCount(0);
 
     const timeline = page.getByRole('navigation', { name: '경험 타임라인' });
     await expect(timeline).toBeVisible();

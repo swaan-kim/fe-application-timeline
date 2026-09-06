@@ -36,8 +36,7 @@
   margin: 1.25rem 0 0;
 }
 
-.metaLine,
-.githubLink {
+.metaLine {
   margin: 0;
   color: var(--quiet);
   font-size: 0.875rem;
@@ -45,22 +44,6 @@
   line-height: 1.6;
 }
 
-.githubLink {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  min-height: 2.75rem;
-  text-decoration: none;
-}
-
-.githubLink:hover,
-.githubLink:active,
-.githubLink:focus-visible {
-  color: var(--ink);
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-}
 .retryButton {
   min-height: 2.75rem;
   padding: 0.5rem 1rem;

@@ -17,7 +17,7 @@ status: draft
 **AI도 같은 팀 규칙으로 일하도록**
 
 - **AI 동료 만들기:** [GitHub 스프린트 템플릿](https://github.com/swaan-kim/teo_ai_agent)을 활용해 기획·화면·완료 조건을 문서로 공유하고, 기능별 Issue를 AI의 작업 단위로 삼았습니다. 매번 설명을 반복하기보다 팀의 합의를 이어받아 구현하도록 했습니다.
-- **합치기 쉬운 FE 코드:** [FE 컨벤션](https://github.com/swaan-kim/matzip/blob/main/docs/frontend.md)으로 서버 데이터·URL·UI 상태의 역할과 API 호출 방식을 맞췄습니다. 각자 만든 화면을 합칠 때 중복 상태나 서로 다른 데이터 처리 방식으로 생기는 문제를 줄이고자 했습니다.
+- **합치기 쉬운 FE 코드:** [FE 컨벤션](https://github.com/swaan-kim/matzip/blob/main/docs/frontend.md)으로 서버 데이터·URL·UI 상태의 역할과 API 호출 방식을 맞췄습니다. 각자 만든 화면을 합쳐도 같은 데이터를 중복 관리하거나 다르게 처리하지 않도록 하기 위해서였습니다.
 - **QA와 배포 기준 맞추기:** 로딩·빈 결과·오류 화면을 공통 검토 항목으로 삼았습니다. main에 통합한 코드는 GitHub Actions에서 빌드한 뒤 Vercel에 배포하도록 구성해, 팀이 같은 버전을 기준으로 확인할 수 있게 했습니다.
 
 **어디서 만나야 합리적일까?**
@@ -35,6 +35,6 @@ status: draft
 
 ## 성과
 
-사용자 테스트에서 ‘어떤 기준으로 추천한 건가요?’라는 질문을 받았습니다. 추천 결과를 만드는 것만큼, 사용자가 그 이유를 이해하고 선택할 수 있게 설명하는 일이 중요하다는 것을 배웠습니다.
+사용자 테스트에서 ‘어떤 기준으로 추천한 건가요?’라는 질문을 받았습니다. 추천 결과뿐 아니라 그 이유도 화면에서 설명해야, 사용자가 납득하고 선택할 수 있다는 점을 배웠습니다.
 
 [GitHub에서 추천 로직 보기](https://github.com/swaan-kim/matzip/tree/main/src/features/region-recommend)

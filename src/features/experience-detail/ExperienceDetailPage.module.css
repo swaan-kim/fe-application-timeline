@@ -245,6 +245,12 @@
   margin-inline: auto;
 }
 
+.media[data-media-layout='phone'] img {
+  width: min(100%, calc(36rem * var(--media-ratio)));
+  max-height: 36rem;
+  object-fit: contain;
+}
+
 .mediaGallery {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -278,7 +284,6 @@
   display: inline-flex;
   align-items: center;
   align-self: flex-start;
-  min-height: 2.75rem;
   color: var(--muted);
   font: inherit;
   font-size: 0.875rem;
@@ -287,6 +292,7 @@
 }
 
 .mediaToggle {
+  min-height: 2.75rem;
   padding: 0.5rem 0;
   border: 0;
   background: none;

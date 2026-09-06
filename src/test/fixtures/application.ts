@@ -68,6 +68,7 @@ export const testSnapshot: TimelineSnapshot = {
 
 export const readingItem = testItem({
   id: 'reading-example',
+  technologies: ['react', 'typescript', 'vitejs', 'playwright'],
   title: '긴 제목과 복잡한 본문에서도 읽는 흐름이 유지되는지 검증한 경험',
   purpose:
     '검증 전용 본문입니다. 실제 지원자의 경험이나 성과가 아닙니다.\n\n' +
@@ -80,7 +81,11 @@ export const readingItem = testItem({
     '[검증용 링크](https://example.com/review)\n\n' +
     '[https://example.com/' +
     'long-readable-reference-'.repeat(12) +
-    '](https://example.com/reference)',
+    '](https://example.com/reference)\n\n' +
+    '![테스트 홈](/media/experiences/project-b/home.png "gallery")\n\n' +
+    '![테스트 꾸미기](/media/experiences/project-b/customize-scrolled.png "gallery")\n\n' +
+    '![테스트 문서](/media/experiences/interaction-prototype/training-data.png)\n\n' +
+    '![테스트 GIF](/media/experiences/interaction-prototype/slide-demo.gif)',
 });
 
 export const qaSnapshot: TimelineSnapshot = {
