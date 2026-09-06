@@ -1,8 +1,33 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { testSnapshot as applicationSnapshot } from '../../test/fixtures/application';
 import { ExperienceDetailPage } from './ExperienceDetailPage';
 
 describe('ExperienceDetailPage', () => {
+  it('shows static evidence and plays GIFs only after a keyboard action', async () => {
+    const user = userEvent.setup();
+    render(
+      <ExperienceDetailPage
+        item={{
+          ...applicationSnapshot.items[0]!,
+          outcome:
+            '![정적 슬라이드](/media/experiences/sample/slide.png)\n\n![전환 시연](/media/experiences/sample/demo.gif)',
+        }}
+      />,
+    );
+    expect(screen.getByRole('img', { name: '정적 슬라이드' })).toHaveAttribute('loading', 'lazy');
+    expect(
+      screen.getByRole('link', { name: '정적 슬라이드 원본 · 새 창에서 열림' }),
+    ).toHaveAttribute('target', '_blank');
+    expect(screen.queryByRole('img', { name: '전환 시연' })).not.toBeInTheDocument();
+    const play = screen.getByRole('button', { name: '전환 시연 · GIF 재생' });
+    play.focus();
+    await user.keyboard('{Enter}');
+    expect(screen.getByRole('img', { name: '전환 시연' })).toBeVisible();
+    expect(play).toHaveAttribute('aria-expanded', 'true');
+    await user.keyboard(' ');
+    expect(screen.queryByRole('img', { name: '전환 시연' })).not.toBeInTheDocument();
+  });
   it('shows month-only periods and keeps ongoing work distinct from completed work', () => {
     const item = {
       ...applicationSnapshot.items[0]!,

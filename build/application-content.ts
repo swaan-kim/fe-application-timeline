@@ -5,6 +5,7 @@ import { fromMarkdown } from 'mdast-util-from-markdown';
 import { parseDocument } from 'yaml';
 import { z } from 'zod';
 import { APPLICATION_CONFIG } from '../src/content/application.config.ts';
+import { isExperienceMediaPath } from '../src/domain/experience-media.ts';
 import type { ApplicationConfig } from '../src/domain/application-config.ts';
 import { formatDiagnostic, type ContentDiagnostic } from '../src/domain/content-diagnostic.ts';
 import {
@@ -47,6 +48,7 @@ const ALLOWED_MARKDOWN_NODES = new Set([
   'list',
   'listItem',
   'break',
+  'image',
 ]);
 
 interface LoadApplicationContentOptions {
@@ -104,6 +106,7 @@ function parseFrontmatter(source: string, fileName: string) {
 
 interface MarkdownNode {
   type: string;
+  alt?: string | null;
   depth?: number;
   url?: string;
   value?: string;
@@ -120,7 +123,7 @@ function getSemanticText(markdown: string): string {
   return getPlainText(fromMarkdown(markdown)).replace(/\s+/gu, ' ').trim();
 }
 
-function validateMarkdownNode(node: MarkdownNode, fileName: string): void {
+function validateMarkdownNode(node: MarkdownNode, fileName: string, parent?: MarkdownNode): void {
   if (!ALLOWED_MARKDOWN_NODES.has(node.type)) {
     throw describeFile(fileName, `지원하지 않는 Markdown 요소입니다: ${node.type}`);
   }
@@ -133,7 +136,18 @@ function validateMarkdownNode(node: MarkdownNode, fileName: string): void {
       throw describeFile(fileName, `링크는 https 또는 mailto 주소만 사용할 수 있습니다: ${url}`);
     }
   }
-  node.children?.forEach((child) => validateMarkdownNode(child, fileName));
+  if (node.type === 'image') {
+    if (parent?.type !== 'paragraph' || parent.children?.length !== 1) {
+      throw describeFile(fileName, '이미지는 다른 글이나 링크 없이 독립된 문단으로 작성합니다.');
+    }
+    if (!node.alt?.trim() || !isExperienceMediaPath(node.url ?? '')) {
+      throw describeFile(
+        fileName,
+        '이미지는 설명과 /media/experiences/<id>/<파일명> 경로가 필요합니다.',
+      );
+    }
+  }
+  node.children?.forEach((child) => validateMarkdownNode(child, fileName, node));
 }
 
 function parseSections(

@@ -193,6 +193,49 @@
   text-decoration: none;
 }
 
+.media {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  min-width: 0;
+}
+
+.media img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+}
+
+.mediaCaption,
+.mediaToggle {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  min-height: 2.75rem;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.mediaToggle {
+  padding: 0.5rem 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.mediaToggle:hover,
+.mediaToggle:focus-visible {
+  color: var(--category-color);
+}
+
 .draftEmpty {
   color: var(--quiet);
 }

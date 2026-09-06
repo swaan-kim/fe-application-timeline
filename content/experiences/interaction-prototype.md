@@ -16,8 +16,14 @@ AX 해커톤에서 PPT 제작 워크플로우로 수상한 뒤, ‘AI는 왜 발
 PPTX 직접 생성 대신 HTML·CSS를 선택한 이유는 두 가지입니다.
 
 - **배치 오류 줄이기:** Flex·Grid로 내용 길이에 따라 요소가 배치되도록 해, 좌표를 일일이 지정할 때 생기는 글자 겹침과 간격 오류를 줄이고자 했습니다.
-- **디자인을 한 번에 수정하기:** 공통 CSS에서 글꼴·색상·여백을 관리해, 슬라이드마다 고치지 않고 전체 스타일을 일관되게 바꿀 수 있도록 했습니다.
+- **AI와 반복 수정하기 좋은 구조:** HTML로 요소 간 관계를 드러내, AI가 전체 디자인을 일관되게 수정하기 쉽도록 했습니다.
 
 ## 성과
 
 기획·제작·검수·PDF 출력 과정을 재사용 가능한 [AI 발표자료 제작 스킬](https://github.com/swaan-kim/html-pitch-artifacts)로 정리했습니다.
+
+![슬라이드 전환 시연](/media/experiences/interaction-prototype/slide-demo.gif)
+
+![학습 데이터 설명 슬라이드](/media/experiences/interaction-prototype/training-data.png)
+
+![제품 화면 설명 슬라이드](/media/experiences/interaction-prototype/product-history.png)

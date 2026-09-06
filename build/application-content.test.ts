@@ -36,6 +36,28 @@ afterEach(async () => {
 });
 
 describe('experience Markdown contract', () => {
+  it('preserves local media and rejects unsafe, remote, or undescribed images', () => {
+    const image = '![슬라이드 예시](/media/experiences/sample-item/slide.png)';
+    const source = createMarkdown({
+      body: `## 목적\n\n목적\n\n## 의도\n\n의도\n\n## 성과\n\n성과\n\n${image}`,
+    });
+    const item = parseExperienceMarkdown(source, 'sample-item.md');
+    expect(item.outcome).toContain(image);
+    expect(parseExperienceMarkdown(serializeExperienceMarkdown(item), 'sample-item.md')).toEqual(
+      item,
+    );
+    for (const replacement of [
+      '![설명](https://example.com/image.png)',
+      '![](/media/experiences/sample-item/slide.png)',
+      '![설명](/media/experiences/sample-item/../slide.png)',
+      '![설명](/media/experiences/sample-item/slide.svg)',
+      `[${image}](https://example.com)`,
+    ]) {
+      expect(() =>
+        parseExperienceMarkdown(source.replace(image, replacement), 'sample-item.md'),
+      ).toThrow('이미지');
+    }
+  });
   it('exposes only explicitly approved drafts and never resurrects archived content', async () => {
     const rootDir = await mkdtemp(path.join(tmpdir(), 'fe-public-drafts-'));
     temporaryDirectories.push(rootDir);
@@ -175,7 +197,7 @@ describe('experience Markdown contract', () => {
         }),
         'sample.md',
       ),
-    ).toThrow('지원하지 않는 Markdown 요소');
+    ).toThrow('이미지는 설명과');
     expect(() =>
       parseExperienceMarkdown(
         createMarkdown({
