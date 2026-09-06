@@ -22,9 +22,10 @@ describe('ExperienceDetailPage', () => {
     const first = screen.getByRole('link', { name: '꾸미기 전 원본 · 새 창에서 열림' });
     first.focus();
     await user.tab();
-    expect(screen.getByRole('link', { name: /꾸미기 전 · 원본 보기/ })).toHaveFocus();
-    await user.tab();
     expect(screen.getByRole('link', { name: '스크롤 후 원본 · 새 창에서 열림' })).toHaveFocus();
+    expect(screen.queryByText(/원본 보기/)).not.toBeInTheDocument();
+    expect(screen.getByText('꾸미기 전')).toBeVisible();
+    expect(screen.getByText('스크롤 후')).toBeVisible();
     expect(screen.getByRole('img', { name: '스크롤 후' })).not.toHaveAttribute('title');
   });
 

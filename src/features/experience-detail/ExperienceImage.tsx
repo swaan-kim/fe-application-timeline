@@ -34,9 +34,7 @@ export function ExperienceImage({ src, alt }: { src: string; alt: string }) {
           </a>
         )}
       </span>
-      <a className={styles.mediaCaption} href={url} target="_blank" rel="noopener noreferrer">
-        {alt} · 원본 보기<span className="sr-only"> 새 창에서 열림</span>
-      </a>
+      <span className={styles.mediaCaption}>{alt}</span>
     </span>
   );
 }
