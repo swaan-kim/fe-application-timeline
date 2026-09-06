@@ -208,6 +208,34 @@
   margin-inline: auto;
 }
 
+.mediaGallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 1.5rem;
+  margin-block: 1.5rem;
+}
+
+.mediaGallery > p {
+  min-width: 0;
+  margin: 0;
+}
+
+.mediaGallery .media {
+  margin-top: 0;
+}
+
+@media (max-width: 30rem) {
+  .mediaGallery {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .mediaGallery > p {
+    width: min(100%, 22rem);
+    justify-self: center;
+  }
+}
+
 .mediaCaption,
 .mediaToggle {
   display: inline-flex;

@@ -12,6 +12,7 @@ import { CATEGORY_META } from '../application-timeline/timelinePresentation';
 import styles from './ExperienceDetailPage.module.css';
 import { isExperienceMediaPath } from '../../domain/experience-media';
 import { ExperienceImage } from './ExperienceImage';
+import { remarkMediaGallery } from './remarkMediaGallery';
 
 interface ExperienceDetailPageProps {
   item: TimelineItem;
@@ -20,6 +21,9 @@ interface ExperienceDetailPageProps {
 }
 
 const MARKDOWN_COMPONENTS: Components = {
+  div({ children }) {
+    return <div className={styles.mediaGallery}>{children}</div>;
+  },
   img({ src, alt }) {
     return typeof src === 'string' ? <ExperienceImage key={src} src={src} alt={alt ?? ''} /> : null;
   },
@@ -48,7 +52,7 @@ const MARKDOWN_COMPONENTS: Components = {
   },
 };
 
-const ALLOWED_ELEMENTS = ['p', 'ul', 'ol', 'li', 'strong', 'em', 'a', 'br', 'img'] as const;
+const ALLOWED_ELEMENTS = ['p', 'ul', 'ol', 'li', 'strong', 'em', 'a', 'br', 'img', 'div'] as const;
 
 function safeUrlTransform(url: string, key: string): string {
   if (key === 'src') return isExperienceMediaPath(url) ? url : '';
@@ -97,6 +101,7 @@ function MarkdownSection({ id, title, content }: MarkdownSectionProps) {
       {content.trim() ? (
         <div className={styles.markdown}>
           <ReactMarkdown
+            remarkPlugins={[remarkMediaGallery]}
             allowedElements={[...ALLOWED_ELEMENTS]}
             components={MARKDOWN_COMPONENTS}
             skipHtml

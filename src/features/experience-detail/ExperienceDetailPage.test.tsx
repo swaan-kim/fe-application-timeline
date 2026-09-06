@@ -4,6 +4,30 @@ import { testSnapshot as applicationSnapshot } from '../../test/fixtures/applica
 import { ExperienceDetailPage } from './ExperienceDetailPage';
 
 describe('ExperienceDetailPage', () => {
+  it('keeps gallery captions and keyboard-accessible original links in source order', async () => {
+    const user = userEvent.setup();
+    render(
+      <ExperienceDetailPage
+        item={{
+          ...applicationSnapshot.items[0]!,
+          intent:
+            '![꾸미기 전](/media/experiences/sample/before.png "gallery")\n\n![스크롤 후](/media/experiences/sample/after.png "gallery")',
+        }}
+      />,
+    );
+    expect(screen.getAllByRole('img').map((image) => image.getAttribute('alt'))).toEqual([
+      '꾸미기 전',
+      '스크롤 후',
+    ]);
+    const first = screen.getByRole('link', { name: '꾸미기 전 원본 · 새 창에서 열림' });
+    first.focus();
+    await user.tab();
+    expect(screen.getByRole('link', { name: /꾸미기 전 · 원본 보기/ })).toHaveFocus();
+    await user.tab();
+    expect(screen.getByRole('link', { name: '스크롤 후 원본 · 새 창에서 열림' })).toHaveFocus();
+    expect(screen.getByRole('img', { name: '스크롤 후' })).not.toHaveAttribute('title');
+  });
+
   it('shows static evidence and plays GIFs only after a keyboard action', async () => {
     const user = userEvent.setup();
     render(
