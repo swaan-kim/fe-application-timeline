@@ -1,0 +1,15 @@
+node_modules
+dist
+dist-qa
+coverage
+playwright-report
+test-results
+.DS_Store
+*.local
+.env
+.env.*
+!.env.example
+.content-sync/
+.vercel/
+.openai/
+*.tsbuildinfo

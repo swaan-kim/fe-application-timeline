@@ -1,0 +1,11 @@
+.git
+.openai
+.env
+.env.*
+.content-sync
+node_modules
+dist
+dist-qa
+test-results
+playwright-report
+coverage

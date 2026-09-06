@@ -1,0 +1,290 @@
+.timelineSection {
+  padding-top: 1.75rem;
+}
+.timelineSection > h2 {
+  margin: 0 0 1.25rem;
+  font-size: 1.25rem;
+  font-weight: 650;
+  letter-spacing: -0.008em;
+  line-height: 1.45;
+}
+.build {
+  --category-color: var(--build);
+}
+.work {
+  --category-color: var(--work);
+}
+.grow {
+  --category-color: var(--grow);
+}
+.chart {
+  border-top: 1px solid var(--line-strong);
+}
+.lane {
+  display: grid;
+  grid-template-columns: 5rem minmax(0, 1fr);
+}
+.laneHeading {
+  display: flex;
+  align-items: center;
+  padding-left: 0.75rem;
+  border-bottom: 1px solid var(--line);
+  border-left: 2px solid var(--category-color);
+}
+.laneHeading strong {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.lanePlot {
+  position: relative;
+  min-width: 0;
+  border-bottom: 1px solid var(--line);
+}
+.laneGrid {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  margin: 0;
+}
+.laneGrid span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: color-mix(in srgb, var(--line) 65%, transparent);
+}
+.chartEvents {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: 0.5rem;
+  min-height: 3.75rem;
+  padding: 0.5rem 0;
+  margin: 0;
+  list-style: none;
+}
+.chartEvent {
+  grid-column: 1;
+  min-width: 0;
+  margin-left: var(--label-left);
+}
+.chartLink,
+.chartAnnotation {
+  position: relative;
+  display: block;
+  min-height: 2.75rem;
+  height: 100%;
+  padding: 0.125rem 0 1rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+.chartLabel {
+  display: block;
+  width: var(--label-width);
+  padding-right: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+  transition: color 140ms ease;
+}
+.chartBar,
+.chartPin {
+  position: absolute;
+  left: var(--item-left);
+  bottom: 0.25rem;
+  background: var(--category-color);
+}
+.chartBar {
+  width: var(--item-width);
+  height: 2px;
+}
+.chartPin {
+  left: clamp(0px, var(--item-left), calc(100% - 2px));
+  width: 2px;
+  height: 0.625rem;
+}
+.chartLink:hover .chartLabel,
+.chartLink:active .chartLabel,
+.chartLink:focus-visible .chartLabel {
+  color: var(--category-color);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.axis {
+  min-height: 2rem;
+  margin-left: 5rem;
+  border-top: 1px solid var(--line-strong);
+}
+.axisPlot {
+  position: relative;
+  min-width: 0;
+}
+.monthTick {
+  position: absolute;
+  top: 0.5rem;
+  color: var(--quiet);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.4;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+.monthTick[data-first] {
+  transform: none;
+}
+.monthTick[data-last] {
+  transform: translateX(-100%);
+}
+.documentGroups {
+  margin-top: 2.75rem;
+}
+.skipLink {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.skipLink:focus {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: auto;
+  height: auto;
+  min-height: 2.75rem;
+  margin-bottom: 0.75rem;
+  clip-path: none;
+  font-size: 0.875rem;
+}
+.documentGroups:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+}
+.categorySection + .categorySection {
+  margin-top: 2rem;
+}
+.categoryHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-height: 2.75rem;
+  border-top: 1px solid var(--line-strong);
+}
+.categoryHeader::before {
+  width: 1rem;
+  height: 2px;
+  background: var(--category-color);
+  content: '';
+}
+.categoryHeader h3 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 650;
+  line-height: 1.5;
+}
+.experienceList {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.experience {
+  border-bottom: 1px solid var(--line);
+  border-left: 2px solid transparent;
+  scroll-margin-block: 1.5rem;
+  transition: border-color 140ms ease;
+}
+.experience:target {
+  border-left-color: var(--category-color);
+}
+.experienceLink {
+  display: grid;
+  grid-template-columns: 13rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: 1.5rem;
+  min-height: 3rem;
+  padding: 1.125rem 0.625rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+.date {
+  margin: 0;
+  color: var(--quiet);
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.6;
+}
+.visibleDate {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.125rem 0.5rem;
+}
+.visibleDate time,
+.dateEnd {
+  white-space: nowrap;
+}
+.dateEnd {
+  display: inline-flex;
+  gap: 0.5rem;
+}
+.experienceBody {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.experienceBody h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+  transition: color 140ms ease;
+}
+.detailArrow {
+  flex: none;
+  color: var(--quiet);
+  font-size: 1rem;
+  line-height: 1;
+  opacity: 0.65;
+  transition:
+    color 140ms ease,
+    opacity 140ms ease;
+}
+.experienceLink:hover h4,
+.experienceLink:active h4,
+.experienceLink:focus-visible h4 {
+  color: var(--category-color);
+}
+.experienceLink:hover .detailArrow,
+.experienceLink:active .detailArrow,
+.experienceLink:focus-visible .detailArrow {
+  color: var(--category-color);
+  opacity: 1;
+}
+@media (max-width: 47.999rem) {
+  .desktopOverview,
+  .skipLink {
+    display: none;
+  }
+  .timelineSection {
+    padding-top: 1.5rem;
+  }
+  .timelineSection > h2 {
+    margin-bottom: 1rem;
+  }
+  .documentGroups {
+    margin-top: 0;
+  }
+  .categorySection + .categorySection {
+    margin-top: 1.75rem;
+  }
+  .experienceLink {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.25rem;
+    padding: 0.875rem 0.5rem;
+  }
+}
