@@ -30,9 +30,6 @@ AI 스터디 과제로 앱인토스 [‘하찮아도 괜찮아’ 챌린지](htt
 
 ![스크롤 후 · 상단 고정 미리보기](/media/experiences/project-b/customize-scrolled.png 'gallery')
 
-- **화면과 조작 영역:** 고정 미리보기 폭·위치에 뷰포트와 토스 safe area를 반영하고, 터치 이벤트를 가로채지 않도록 했습니다.
-- **탭과 드래그:** Pointer Events의 이동 임계값으로 둘을 구분해, 강아지를 옮긴 뒤 선택 동작이 중복 실행되지 않도록 했습니다.
-
 [미리보기 전환 코드와 테스트 사례](https://github.com/swaan-kim/fe-application-timeline/blob/main/docs/evidence/dog-preview-decision.md)
 
 ## 성과
