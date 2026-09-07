@@ -9,6 +9,10 @@ export interface ExperienceMediaMetadata {
 export const EXPERIENCE_MEDIA: Readonly<Record<string, ExperienceMediaMetadata>> = {
   '/media/experiences/accessibility-study/instruction-comparison.png': { width: 909, height: 340 },
   '/media/experiences/accessibility-study/naver-editor.png': { width: 1280, height: 720 },
+  '/media/experiences/interaction-prototype/layout-overlap-before.png': {
+    width: 1440,
+    height: 469,
+  },
   '/media/experiences/interaction-prototype/product-history.png': { width: 2256, height: 1270 },
   '/media/experiences/interaction-prototype/slide-demo.gif': { width: 400, height: 204 },
   '/media/experiences/interaction-prototype/training-data.png': { width: 1365, height: 733 },
