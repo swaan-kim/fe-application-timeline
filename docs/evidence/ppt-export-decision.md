@@ -1,4 +1,50 @@
-# HTML 발표자료 — PDF 출력 상태를 명시적으로 준비한 이유
+# HTML 발표자료 — 배치 규칙과 PDF 출력 상태를 분리한 이유
+
+## 제목 겹침에서 확인한 문제와 분석 범위
+
+지원서에 첨부한 기존 슬라이드는 두 줄 카드 제목과 본문 첫 줄이 겹칩니다. 일반적으로 텍스트 상자의 높이 또는 본문 시작 위치를 고정하면, 줄바꿈으로 늘어난 제목 높이가 다음 요소의 위치에 반영되지 않아 이런 문제가 생길 수 있습니다. 다만 해당 캡처의 원본 파일·배치 코드는 확보하지 않았으므로, 그 이미지가 PPTX인지 HTML인지 또는 어떤 속성이 원인인지는 단정하지 않습니다.
+
+HTML 선택의 이유는 PPTX가 원천적으로 겹침을 해결할 수 없어서가 아닙니다. 요소별 좌표를 직접 관리하는 생성 방식보다, AI가 수정할 콘텐츠와 공통 배치 규칙을 분리하고 브라우저에서 결과를 검사하기에 적합했기 때문입니다.
+
+## FE와 AI 수정 관점의 실제 구조
+
+- `content/*.js`: 제목·본문과 사용할 레이아웃 종류를 슬라이드 데이터로 관리합니다.
+- `runtime.js`의 `renderBody(slide)`: 데이터의 `layout`에 따라 공통 HTML 구조를 만듭니다. 문구 수정과 마크업 수정을 분리할 수 있습니다.
+- `theme.css`: Grid로 카드 열을 나누고, 카드 내부는 세로 Flex와 여백으로 제목·본문을 배치합니다. 공통 CSS와 변수를 수정하면 같은 규칙을 사용하는 슬라이드에 함께 적용됩니다.
+
+아래는 `assets/templates/pitch-deck/theme.css`의 배치 관련 선언만 발췌한 코드입니다. 색·테두리 등 시각적 선언은 생략했습니다. 첨부 이미지의 수정 전후 코드가 아니라, 재사용 템플릿의 실제 구현 근거입니다.
+
+```css
+.contrast-grid {
+  position: absolute;
+  left: 84px;
+  right: 84px;
+  top: 350px;
+  bottom: 100px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+.contrast-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 52px;
+}
+.contrast-card strong {
+  margin-top: 32px;
+  font-size: 49px;
+  line-height: 1.05;
+}
+.contrast-card p {
+  margin-top: 24px;
+  font-size: 22px;
+}
+```
+
+슬라이드의 큰 영역에는 여전히 절대 위치와 고정 크기를 사용합니다. 내부를 Flex/Grid로 배치해도 임의 길이의 문구가 항상 들어가는 것은 아닙니다. `inspect_artifact.mjs`는 지정된 `[data-qa-fit]` 요소의 경계를 페이지와 비교하고, 텍스트의 스크롤 크기와 박스 크기로 잘림을 검사합니다. 모든 요소 사이의 겹침을 탐지하는 검사는 아니므로 캡처 확인도 필요합니다.
+
+배치 모델의 일반 원리는 [MDN Flexbox 가이드](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Flexible_box_layout/Basic_concepts)를 참고할 수 있습니다. 개인 프로젝트의 구현 근거는 위 코드와 아래에 명시한 원본 리비전입니다.
 
 ## 문제와 선택
 
