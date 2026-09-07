@@ -34,6 +34,7 @@ export function useReturnAnchorFocus(items: readonly TimelineItem[]): void {
       if (!focusedLink || focusedLink.getClientRects().length > 0) return;
       const id = focusedLink.dataset.experienceId;
       const link = id ? document.getElementById(getExperienceAnchor(id))?.querySelector('a') : null;
+      link?.scrollIntoView?.({ block: 'nearest' });
       link?.focus({ preventScroll: true });
     };
     const restore = () => {

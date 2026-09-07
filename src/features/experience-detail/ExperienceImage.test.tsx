@@ -41,11 +41,14 @@ describe('experience media', () => {
     );
     expect(screen.queryByRole('img')).not.toBeInTheDocument();
     const toggle = screen.getByRole('button', { name: '시연 · GIF 재생' });
+    expect(screen.queryByText('시연', { exact: true })).not.toBeInTheDocument();
     toggle.focus();
     await user.keyboard('{Enter}');
     expect(screen.getByRole('img')).toHaveAttribute('width', '400');
     expect(screen.getByRole('img')).toHaveAttribute('height', '204');
     expect(toggle).toHaveAttribute('aria-expanded', 'true');
+    expect(toggle).toHaveAccessibleName('시연 · GIF 숨기기');
+    expect(screen.queryByText('시연', { exact: true })).not.toBeInTheDocument();
     await user.keyboard(' ');
     expect(screen.queryByRole('img')).not.toBeInTheDocument();
     expect(toggle).toHaveFocus();

@@ -100,9 +100,10 @@ describe('ExperienceDetailPage', () => {
       'href',
       '/experiences/project-b',
     );
+    expect(screen.getByText('다음 경험', { exact: false })).toBeVisible();
     rerender(<ExperienceDetailPage item={item!} />);
     expect(screen.queryByRole('link', { name: /다음 경험:/ })).not.toBeInTheDocument();
-    expect(screen.getAllByRole('link', { name: /경험 기록/ })).toHaveLength(2);
+    expect(screen.getAllByRole('link', { name: /경험 기록/ })).toHaveLength(1);
   });
   it('collapses a completely empty draft into one quiet status line', () => {
     const item = applicationSnapshot.items.find((candidate) => candidate.id === 'project-b');

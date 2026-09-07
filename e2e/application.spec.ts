@@ -92,6 +92,7 @@ test.describe('Build / Work / Grow 지원서', () => {
     await expect(record).toBeFocused();
     await page.setViewportSize({ width: 390, height: 844 });
     await expect(record).toBeFocused();
+    await expect(record).toBeInViewport({ ratio: 1 });
     await page.setViewportSize({ width: 1024, height: 768 });
     await expect(record).toBeFocused();
     await page
@@ -100,6 +101,7 @@ test.describe('Build / Work / Grow 지원서', () => {
       .focus();
     await page.setViewportSize({ width: 390, height: 844 });
     await expect(record).toBeFocused();
+    await expect(record).toBeInViewport({ ratio: 1 });
   });
 
   test('keeps chart labels separated and inside their lane with enlarged text', async ({
@@ -267,6 +269,20 @@ test.describe('Build / Work / Grow 지원서', () => {
           .analyze();
         expect(results.violations).toEqual([]);
       }
+    }
+  });
+
+  test('keeps dates readable on selected, hovered and keyboard-focused rows', async ({ page }) => {
+    for (const id of ['project-b', 'product-team-collaboration', 'peer-review-retrospective']) {
+      await page.goto(`/#experience-${id}`);
+      const record = page.locator(`#experience-${id} a`);
+      await expect(record).toBeFocused();
+      await record.hover();
+      const results = await new AxeBuilder({ page })
+        .include(`#experience-${id}`)
+        .withTags(['wcag2a', 'wcag2aa'])
+        .analyze();
+      expect(results.violations).toEqual([]);
     }
   });
 

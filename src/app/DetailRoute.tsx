@@ -2,6 +2,7 @@ import { Component, lazy, Suspense, type ReactNode } from 'react';
 import type { TimelineItem } from '../domain/timeline';
 import { getHomeAnchorPath } from './routes';
 import styles from './App.module.css';
+import layout from './DetailLayout.module.css';
 import detailEntryUrl from 'virtual:detail-entry-url';
 
 const DetailPage = lazy(async () => {
@@ -23,10 +24,7 @@ const DetailPage = lazy(async () => {
   return { default: detail.ExperienceDetailPage };
 });
 
-class DetailErrorBoundary extends Component<
-  { children: ReactNode; homePath: string },
-  { failed: boolean }
-> {
+class DetailErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
   state = { failed: false };
   static getDerivedStateFromError() {
     return { failed: true };
@@ -34,11 +32,8 @@ class DetailErrorBoundary extends Component<
   render() {
     if (!this.state.failed) return this.props.children;
     return (
-      <main className={styles.page}>
-        <a tabIndex={0} className={styles.githubLink} href={this.props.homePath}>
-          ← 경험 기록
-        </a>
-        <h1>경험을 불러오지 못했습니다.</h1>
+      <section className={layout.status} aria-labelledby="detail-error-title">
+        <h1 id="detail-error-title">경험을 불러오지 못했습니다.</h1>
         <button
           className={styles.retryButton}
           onClick={() => {
@@ -49,7 +44,7 @@ class DetailErrorBoundary extends Component<
         >
           다시 시도
         </button>
-      </main>
+      </section>
     );
   }
 }
@@ -65,19 +60,21 @@ export function DetailRoute({
 }) {
   const homePath = getHomeAnchorPath(item.id, basePath);
   return (
-    <DetailErrorBoundary homePath={homePath}>
-      <Suspense
-        fallback={
-          <main className={styles.page}>
-            <a tabIndex={0} className={styles.githubLink} href={homePath}>
-              ← 경험 기록
-            </a>
-            <p role="status">경험을 불러오는 중…</p>
-          </main>
-        }
-      >
-        <DetailPage item={item} nextItem={nextItem} basePath={basePath} />
-      </Suspense>
-    </DetailErrorBoundary>
+    <main className={`${layout.page} ${layout[item.category]}`}>
+      <a className={layout.backLink} href={homePath}>
+        <span aria-hidden="true">←</span> 경험 기록
+      </a>
+      <DetailErrorBoundary>
+        <Suspense
+          fallback={
+            <p className={layout.status} role="status">
+              경험을 불러오는 중…
+            </p>
+          }
+        >
+          <DetailPage item={item} nextItem={nextItem} basePath={basePath} />
+        </Suspense>
+      </DetailErrorBoundary>
+    </main>
   );
 }

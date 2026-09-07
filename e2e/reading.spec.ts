@@ -30,6 +30,7 @@ test('long content, continued reading, direct reload and Back stay connected', a
   await page.reload();
   await expect(page.getByRole('heading', { level: 2 })).toHaveText(['목적', '의도', '성과']);
   const next = page.getByRole('link', { name: /^다음 경험:/ });
+  await expect(next.getByText('다음 경험', { exact: false })).toBeVisible();
   await next.scrollIntoViewIfNeeded();
   await next.focus();
   await page.keyboard.press('Enter');
@@ -124,7 +125,57 @@ test('home does not request the Markdown renderer and a failed detail load can r
   );
   await page.goto('/experiences/reading-example');
   await expect(page.getByRole('heading', { name: '경험을 불러오지 못했습니다.' })).toBeVisible();
+  const back = page.getByRole('link', { name: '경험 기록', exact: false }).first();
+  expect((await back.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+  await back.focus();
+  await expect(back).toBeFocused();
   await page.unroute('**/assets/ExperienceDetailPage-*.js');
   await page.getByRole('button', { name: '다시 시도' }).click();
   await expect(page.getByRole('heading', { level: 2 })).toHaveText(['목적', '의도', '성과']);
 });
+
+for (const width of [1440, 320]) {
+  test(`detail loading keeps the same paper and focused back link at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 });
+    let release!: () => void;
+    const pending = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    await page.route('**/assets/ExperienceDetailPage-*.js', async (route) => {
+      await pending;
+      await route.continue();
+    });
+    try {
+      await page.goto('/experiences/reading-example', { waitUntil: 'domcontentloaded' });
+      await expect(page.getByRole('status')).toHaveText('경험을 불러오는 중…');
+      await page.evaluate(() => document.fonts.ready);
+      const paper = page.getByRole('main');
+      const back = page.getByRole('link', { name: '경험 기록', exact: false }).first();
+      const before = { paper: await paper.boundingBox(), back: await back.boundingBox() };
+      expect(before.paper!.width).toBe(Math.min(width, 768));
+      expect(before.back!.height).toBeGreaterThanOrEqual(44);
+      await back.focus();
+      const focusedLink = await back.elementHandle();
+      release();
+      await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+      await expect(page.getByRole('status')).toHaveCount(0);
+      expect(await focusedLink.evaluate((element) => element === document.activeElement)).toBe(
+        true,
+      );
+      await expect(back).toBeFocused();
+      expect(await paper.boundingBox()).toMatchObject({
+        x: before.paper!.x,
+        width: before.paper!.width,
+      });
+      expect(await back.boundingBox()).toEqual(before.back);
+      await page.keyboard.press('Enter');
+      await expect(page.locator('#experience-reading-example a')).toBeFocused();
+      await expect(page.locator('#experience-reading-example a')).toBeInViewport({ ratio: 1 });
+    } finally {
+      release();
+      await page.unrouteAll({ behavior: 'wait' });
+    }
+  });
+}

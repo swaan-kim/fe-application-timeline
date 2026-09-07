@@ -198,6 +198,18 @@
 .experience:target {
   border-left-color: var(--category-color);
 }
+.experience:target .experienceLink,
+.experienceLink:hover,
+.experienceLink:focus-visible,
+.experienceLink:active {
+  background: color-mix(in srgb, var(--category-color) 4%, var(--surface));
+}
+.experience:target .date,
+.experienceLink:hover .date,
+.experienceLink:focus-visible .date,
+.experienceLink:active .date {
+  color: var(--muted);
+}
 .experienceLink {
   display: grid;
   grid-template-columns: 13rem minmax(0, 1fr);
@@ -207,6 +219,7 @@
   padding: 1.125rem 0.625rem;
   color: var(--ink);
   text-decoration: none;
+  transition: background-color 140ms ease;
 }
 .date {
   margin: 0;

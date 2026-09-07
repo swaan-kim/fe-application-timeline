@@ -10,6 +10,7 @@ import {
 import { getHomeAnchorPath, getExperiencePath } from '../../app/routes';
 import { CATEGORY_META } from '../application-timeline/timelinePresentation';
 import styles from './ExperienceDetailPage.module.css';
+import layout from '../../app/DetailLayout.module.css';
 import { isExperienceMediaPath } from '../../domain/experience-media';
 import { ExperienceImage } from './ExperienceImage';
 import { remarkMediaGallery } from './remarkMediaGallery';
@@ -137,11 +138,7 @@ export function ExperienceDetailPage({
   }, [item.title]);
 
   return (
-    <main className={`${styles.page} ${styles[item.category]}`}>
-      <a tabIndex={0} className={styles.backLink} href={getHomeAnchorPath(item.id, basePath)}>
-        <span aria-hidden="true">←</span> 경험 기록
-      </a>
-
+    <>
       <article aria-labelledby="experience-title">
         <header className={styles.header}>
           <p className={styles.meta}>
@@ -182,7 +179,7 @@ export function ExperienceDetailPage({
         )}
       </article>
       <nav className={styles.readingNavigation} aria-label="경험 이어 읽기">
-        <a tabIndex={0} className={styles.backLink} href={getHomeAnchorPath(item.id, basePath)}>
+        <a tabIndex={0} className={layout.backLink} href={getHomeAnchorPath(item.id, basePath)}>
           <span aria-hidden="true">←</span> 경험 기록
         </a>
         {nextItem ? (
@@ -190,13 +187,16 @@ export function ExperienceDetailPage({
             tabIndex={0}
             className={styles.nextLink}
             href={getExperiencePath(nextItem.id, basePath)}
+            aria-label={`다음 경험: ${nextItem.title}`}
           >
-            <span className="sr-only">다음 경험: </span>
-            <span>{nextItem.title}</span>
+            <span className={styles.nextCopy}>
+              <span className={styles.nextLabel}>다음 경험</span>
+              <span>{nextItem.title}</span>
+            </span>
             <span aria-hidden="true">→</span>
           </a>
         ) : null}
       </nav>
-    </main>
+    </>
   );
 }

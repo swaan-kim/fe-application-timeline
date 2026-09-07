@@ -22,6 +22,8 @@ describe('App route rendering', () => {
       await screen.findByRole('heading', { level: 1, name: '접근성 학습·검증' }),
     ).toBeVisible();
     expect(screen.getByText('초안 · 내용 작성 전')).toBeVisible();
+    expect(screen.getAllByRole('main')).toHaveLength(1);
+    expect(screen.getAllByRole('link', { name: /경험 기록/ })).toHaveLength(2);
     await waitFor(() => expect(document.title).toContain('접근성 학습·검증'));
   });
 

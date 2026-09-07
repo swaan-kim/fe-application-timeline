@@ -29,7 +29,7 @@ export function ExperienceImage({ src, alt }: { src: string; alt: string }) {
           aria-controls={mediaId}
           onClick={() => setPlaying(!playing)}
         >
-          {playing ? 'GIF 숨기기' : `${alt} · GIF 재생`}
+          {alt} · {playing ? 'GIF 숨기기' : 'GIF 재생'}
         </button>
       )}
       <span id={mediaId}>
@@ -51,7 +51,7 @@ export function ExperienceImage({ src, alt }: { src: string; alt: string }) {
           </a>
         )}
       </span>
-      <span className={styles.mediaCaption}>{alt}</span>
+      {!animated && <span className={styles.mediaCaption}>{alt}</span>}
     </span>
   );
 }
