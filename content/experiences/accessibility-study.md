@@ -38,7 +38,13 @@ DOM 전체를 복사하는 대신, 제목·본문·서식 도구를 역할·라�
 
 [GitHub에서 구현과 설계 보기](https://github.com/swaan-kim/naver-blog-ai-assistant) · [원고 검증 테스트](https://github.com/swaan-kim/naver-blog-ai-assistant/blob/a87656b788ff7ed77c711a679ebbb717d2e6b1ba/skills/naver-blog-assistant/tests/test_validate_draft.py)
 
+---
+
 **실전 적용 2 · 교내 2026 UNITHON 최우수상**
 
 - 각 작업의 목적·의도에 맞춰 컨벤션을 정하고, AI 결과가 기준에서 벗어날 때만 조정했습니다.
 - 핵심 기획, FE UI·목업 구현, PPT 제작을 전담하며 병렬로 진행했습니다. 사업계획서는 팀원과 협의해 작성했습니다.
+
+**해커톤 이후 · 방향성을 스킬로 구조화**
+
+목표·MVP 범위·완료 기준을 정하는 과정을 재사용 스킬로 만들었습니다. Mock 검증부터 API 계약·화면 QA·발표 준비까지 연결해, 다음 해커톤에서도 같은 방향으로 작업하도록 구조화했습니다.

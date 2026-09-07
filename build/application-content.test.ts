@@ -36,6 +36,24 @@ afterEach(async () => {
 });
 
 describe('experience Markdown contract', () => {
+  it('round-trips section dividers without treating a divider as published content', () => {
+    const body = '## 목적\n\n목적\n\n## 의도\n\n의도\n\n## 성과\n\n첫 사례\n\n---\n\n다음 사례';
+    const item = parseExperienceMarkdown(createMarkdown({ body }), 'sample-item.md');
+    expect(item.outcome).toBe('첫 사례\n\n---\n\n다음 사례');
+    expect(parseExperienceMarkdown(serializeExperienceMarkdown(item), 'sample-item.md')).toEqual(
+      item,
+    );
+    expect(() =>
+      parseExperienceMarkdown(
+        createMarkdown({ body: body.replace('첫 사례\n\n---\n\n다음 사례', '---') }).replace(
+          'status: draft',
+          'status: published',
+        ),
+        'sample-item.md',
+      ),
+    ).toThrow('게시할 성과 섹션에 실제 내용');
+  });
+
   it('round-trips optional technology metadata and rejects unknown or duplicate IDs', () => {
     const item = parseExperienceMarkdown(
       createMarkdown({ frontmatter: 'technologies: [react, typescript, vitejs]\n' }),

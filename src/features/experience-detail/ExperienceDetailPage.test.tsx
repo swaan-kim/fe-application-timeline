@@ -4,6 +4,30 @@ import { testSnapshot as applicationSnapshot } from '../../test/fixtures/applica
 import { ExperienceDetailPage } from './ExperienceDetailPage';
 
 describe('ExperienceDetailPage', () => {
+  it('separates practical examples without changing their order or adding a tab stop', async () => {
+    const user = userEvent.setup();
+    render(
+      <ExperienceDetailPage
+        item={{
+          ...applicationSnapshot.items[0]!,
+          outcome:
+            '**첫 사례**\n\n[첫 근거](https://example.com/first)\n\n---\n\n**다음 사례**\n\n[다음 근거](https://example.com/next)',
+        }}
+      />,
+    );
+    const outcome = screen.getByRole('region', { name: '성과' });
+    const divider = within(outcome).getByRole('separator');
+    expect(divider.tagName).toBe('HR');
+    expect(divider.previousElementSibling).toHaveTextContent('첫 근거');
+    expect(divider.nextElementSibling).toHaveTextContent('다음 사례');
+    expect(divider).not.toHaveAttribute('tabindex');
+    within(outcome)
+      .getByRole('link', { name: /첫 근거/ })
+      .focus();
+    await user.tab();
+    expect(within(outcome).getByRole('link', { name: /다음 근거/ })).toHaveFocus();
+  });
+
   it('shows named technologies beside the title without adding links or repeated image labels', () => {
     const item = {
       ...applicationSnapshot.items[0]!,

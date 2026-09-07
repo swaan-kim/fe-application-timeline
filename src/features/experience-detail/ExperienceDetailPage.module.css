@@ -183,6 +183,12 @@
   margin-top: 0;
 }
 
+.markdown hr {
+  margin: 3rem 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
 .markdown ul,
 .markdown ol {
   padding-left: 1.4rem;

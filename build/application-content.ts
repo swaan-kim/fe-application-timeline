@@ -54,6 +54,7 @@ const ALLOWED_MARKDOWN_NODES = new Set([
   'list',
   'listItem',
   'break',
+  'thematicBreak',
   'image',
 ]);
 

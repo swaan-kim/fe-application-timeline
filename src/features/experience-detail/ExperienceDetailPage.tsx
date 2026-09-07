@@ -54,7 +54,19 @@ const MARKDOWN_COMPONENTS: Components = {
   },
 };
 
-const ALLOWED_ELEMENTS = ['p', 'ul', 'ol', 'li', 'strong', 'em', 'a', 'br', 'img', 'div'] as const;
+const ALLOWED_ELEMENTS = [
+  'p',
+  'ul',
+  'ol',
+  'li',
+  'strong',
+  'em',
+  'a',
+  'br',
+  'hr',
+  'img',
+  'div',
+] as const;
 
 function safeUrlTransform(url: string, key: string): string {
   if (key === 'src') return isExperienceMediaPath(url) ? url : '';
